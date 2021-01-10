@@ -12,11 +12,11 @@ script:
   - docker run -e CI=ture yanggwi/react-test-app npm test
 
 after_success:
+  - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --password-stdin
+  
   - docker build -t yanggwi/docker-frontend ./frontend
   - docker build -t yanggwi/docker-backend ./backend
   - docker build -t yanggwi/docker-nginx ./nginx
-
-  - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --password-stdin
 
   - docker push yanggwi/docker-frontend
   - docker push yanggwi/docker-backend
